@@ -1,0 +1,17 @@
+<div class="mg4" ng-controller="mappingsController">
+    <div class="aBox pad4 bg5 bm10">
+        <span class="ex00">Mappings</span>&nbsp;
+        <span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span>
+    </div>
+
+    <table ng-show="error==false" class="tb01">
+        <tr ng-repeat="key in values">
+            
+            <td class="tdUP base wrapped"><span class="fs90">{{ key }}</span></td>
+            <td class="tdUP base"><span class="fs90">{{ data[key].bean }}</span></td>
+            <td class="tdUP base wrapped"><span class="fs90">{{ data[key].method }}</span></td>
+
+        </tr>
+    </table>
+    <div ng-show="error==true" class="pad4 tm10"><span class="ex01"> {{ data }}</span></div>
+</div>

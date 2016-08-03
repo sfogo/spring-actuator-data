@@ -1,0 +1,18 @@
+<div class="mg4" ng-controller="beanController">
+    <div class="aBox pad4 bg5 bm10"><span class="ex00">Beans</span></div>
+    <table ng-show="error==false" class="tb01">
+        <tr>
+            <td class="td00 base"><span class="ex00">Bean</span></td>
+            <td class="td00 base"><span class="ex00">Scope</span></td>
+            <td class="td00 base"><span class="ex00">Type</span></td>
+            <td class="td00 base"><span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span></td>
+        </tr>
+        <tr ng-repeat="b in data[0].beans">
+            <td class="tdUP base wrapped"><span class="fs90">{{ b.bean }}</span></td>
+            <td class="tdUP base"><span class="fs90">{{ b.scope }}</span></td>
+            <td class="tdUP base wrapped"><span class="fs90">{{ b.type }}</span></td>
+            <td class="tdUP base"><span class="fs90">&nbsp;</span></td>
+        </tr>
+    </table>
+    <div ng-show="error==true" class="pad4 tm10"><span class="ex01"> {{ data }}</span></div>
+</div>
