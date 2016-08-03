@@ -36,32 +36,33 @@
         var props = [];
         for (key in data) {
             var set = data[key];
-            props.push({name:key,value:'_separator_'});
-            flattenProperties(props,set.prefix,set.properties);
+            props.push({name:key, value:'_separator_'});
+            flattenObjectProperties(props, set.prefix, set.properties);
         }
         return props;
     }
 
-    var flattenProperties = function(props,prefix,value) {
+    var flattenObjectProperties = function(props, prefix, value) {
         if (value!=undefined && typeof(value)=='object') {
             var count = 0;
             for (key in value) {
-                flattenProperties(props,prefix+'.'+key,value[key]);
+                flattenObjectProperties(props, prefix+'.'+key, value[key]);
                 count++;
             }
             // Property whose value is an empty object.
             if (count==0) {
-                props.push({name : prefix, value : value});
+                props.push({name:prefix, value:value});
             }
         } else {
-            props.push({name : prefix, value : value});
+            props.push({name:prefix, value:value});
         }
     } 
 
-    var getManagementData = function(scope,http,resources,dataTransform) {
+    var getManagementData = function(scope, http, resources, dataTransform) {
         scope.data = null;
         scope.error = false;
         scope.wheel = false;
+
         scope.getData = function() {
             scope.wheel = true;
             var request = {
@@ -84,7 +85,8 @@
                 }
             );
         };
-        scope.getData(resources);
+
+        scope.getData();
     }
 
     // ===========================
