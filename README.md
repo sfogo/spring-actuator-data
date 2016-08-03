@@ -4,3 +4,18 @@ This project was started from the basic actuator [sample](https://spring.io/guid
 
 ## Deployment
 In order to be able to deploy on [Heroku](https://www.heroku.com), server and management endpoints are kept on the same port (Heroku only supports one). You can update [application properties](src/main/resources/application.properties) in case you need to do two ports (you would also need to update the `managementURL` value in the angular [app](src/main/webapp/WEB-INF/js/actuate-app.js)).
+
+## Examples and screen shots (Heroku)
+### Check the app is up and running
+- Go to `https://azonzo.herokuapp.com/hello`
+- You may have to wait and refresh your browser a few times before you stop getting Heroku `Application Error` page.
+
+### Actuator endpoints
+- They are at `https://azonzo.herokuapp.com/actuate/{resources}`
+- Example: `https://azonzo.herokuapp.com/actuate/mappings`
+
+### AngularJS Application
+- Go to `https://azonzo.herokuapp.com/app/actuate/index.html`
+- Health `https://azonzo.herokuapp.com/app/actuate/index.html#/health`
+- Config Props `https://azonzo.herokuapp.com/app/actuate/index.html#/configprops`
+
