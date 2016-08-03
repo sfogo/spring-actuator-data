@@ -22,7 +22,7 @@
     });
 
     // ===========================
-    // Functions
+    // Utils
     // ===========================
     var getObjectKeys = function(object) {
         var keys = [];
@@ -36,11 +36,27 @@
         var props = [];
         for (key in data) {
             var set = data[key];
-            props.push({name:key,value:'_set_'});
+            props.push({name:key,value:'_separator_'});
             flattenProperties(props,set.prefix,set.properties);
         }
         return props;
     }
+
+    var flattenProperties = function(props,prefix,value) {
+        if (value!=undefined && typeof(value)=='object') {
+            var count = 0;
+            for (key in value) {
+                flattenProperties(props,prefix+'.'+key,value[key]);
+                count++;
+            }
+            // Property whose value is an empty object.
+            if (count==0) {
+                props.push({name : prefix, value : value});
+            }
+        } else {
+            props.push({name : prefix, value : value});
+        }
+    } 
 
     var getManagementData = function(scope,http,resources,dataTransform) {
         scope.data = null;
@@ -127,18 +143,8 @@
 })();
 
 // ===========================
-// HTTP Management
+// A few functions
 // ===========================
-function getQueryParameter(url,name) {
-    var r = new RegExp('[\?&]' + name + '=([^&#]*)').exec(url);
-    return r==null ? null : decodeURIComponent(r[1]);
-}
-
-function removeQuery(url) {
-    var i=url.indexOf('?');
-    return (i==-1) ? url : url.substring(0,i);
-}
-
 function getManagementURL() {
     // HEROKU
     if (document.domain.endsWith('.herokuapp.com'))
@@ -151,19 +157,3 @@ function getManagementURL() {
     // webapp runner, no Nginx
     return 'http://localhost:8080/actuate' ;
 }
-
-function flattenProperties(props,prefix,value) {
-    if (value!=undefined && typeof(value)=='object') {
-        var count = 0;
-        for (key in value) {
-            flattenProperties(props,prefix+'.'+key,value[key]);
-            count++;
-        }
-        // We want to see empty properties.
-        if (count==0) {
-            props.push({name : prefix, value : value});
-        }
-    } else {
-        props.push({name : prefix, value : value});
-    }
-} 

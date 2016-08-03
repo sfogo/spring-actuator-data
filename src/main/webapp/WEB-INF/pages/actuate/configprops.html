@@ -6,9 +6,9 @@
 
     <table ng-show="error==false" class="tb01">
         <tr ng-repeat="prop in values">
-            <td ng-if="prop.value == '_set_'" class="tdUP base wrapped" colspan="2"><span class="ex00">{{ prop.name }}</span></td>
-            <td ng-if="prop.value != '_set_'" class="tdUP base"><span class="fs90">{{ prop.name }}</span></td>
-            <td ng-if="prop.value != '_set_'" class="tdUP base wrapped"><span class="fs90">{{ prop.value }}</span></td>
+            <td ng-if="prop.value == '_separator_'" class="tdUP base wrapped" colspan="2"><span class="ex00">{{ prop.name }}</span></td>
+            <td ng-if="prop.value != '_separator_'" class="tdUP base"><span class="fs90">{{ prop.name }}</span></td>
+            <td ng-if="prop.value != '_separator_'" class="tdUP base wrapped"><span class="fs90">{{ prop.value }}</span></td>
         </tr>
     </table>
     <div ng-show="error==true" class="pad4 tm10"><span class="ex01">Error</span></div>
