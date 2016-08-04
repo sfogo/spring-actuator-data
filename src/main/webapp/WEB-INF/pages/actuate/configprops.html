@@ -1,4 +1,4 @@
-<div class="mg4" ng-controller="configpropsController">
+<div class="mg4" id="configpropsDiv" ng-controller="configpropsController">
     <div class="aBox pad4 bg5 bm10">
         <span class="ex00">Configuration Properties</span>&nbsp;
         <span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span>
@@ -6,9 +6,20 @@
 
     <table ng-show="error==false" class="tb01">
         <tr ng-repeat="prop in values">
-            <td ng-if="prop.value == '_separator_'" class="tdUP base wrapped" colspan="2"><span class="ex00">{{ prop.name }}</span></td>
-            <td ng-if="prop.value != '_separator_'" class="tdUP base"><span class="fs90">{{ prop.name }}</span></td>
-            <td ng-if="prop.value != '_separator_'" class="tdUP base wrapped"><span class="fs90">{{ prop.value }}</span></td>
+
+            <!-- Start of set -->
+            <td ng-if="prop.depth==-1" class="tdUP base" colspan="2">
+                <span class="fs90 roundedVal json">{{ prop.name }}</span>
+            </td>
+            <td ng-if="prop.depth==-1" class="tdUP base wrapped" colspan="2">
+                <span class="fs90 ex00">{{ prop.value }}</span>
+            </td>
+
+            <!-- Item in set -->
+            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.depth }}</span></td>
+            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.name }}</span></td>
+            <td ng-if="prop.depth > 0" class="tdUP base wrapped"><span class="fs90">{{ prop.value }}</span></td>
+            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.rank }}</span></td>
         </tr>
     </table>
     <div ng-show="error==true" class="pad4 tm10"><span class="ex01">Error</span></div>

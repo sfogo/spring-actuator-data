@@ -24,37 +24,54 @@
     // ===========================
     // Utils
     // ===========================
-    var getObjectKeys = function(object) {
+    var configPropsSequence = {
+        value : 0,
+        reset : function() {value=0;},
+        next : function() {return ++value;}
+    }
+
+    var addConfigProperty = function(props, name, value, depth) {
+        // Counting skips separator values (whose depth is -1)
+        props.push({
+            name:name,
+            value:value,
+            depth:depth,
+            rank:depth==-1 ? -1 : configPropsSequence.next()
+        });
+    }
+
+    var getObjectKeys = function(data) {
         var keys = [];
-        for (key in object) {
+        for (key in data) {
             keys.push(key);
         }
         return keys;
     }
 
     var flattenConfigProps = function(data) {
+        configPropsSequence.reset();
         var props = [];
         for (key in data) {
             var set = data[key];
-            props.push({name:key, value:'_separator_'});
-            flattenObjectProperties(props, set.prefix, set.properties);
+            addConfigProperty(props, set.prefix, key, -1);
+            flattenObjectProperties(props, set.prefix, set.properties, 1);
         }
         return props;
     }
 
-    var flattenObjectProperties = function(props, prefix, value) {
+    var flattenObjectProperties = function(props, prefix, value, depth) {
         if (value!=undefined && typeof(value)=='object') {
             var count = 0;
             for (key in value) {
-                flattenObjectProperties(props, prefix+'.'+key, value[key]);
+                flattenObjectProperties(props, prefix+'.'+key, value[key], 1+depth);
                 count++;
             }
             // Property whose value is an empty object.
             if (count==0) {
-                props.push({name:prefix, value:value});
+                addConfigProperty(props, prefix, value, depth);
             }
         } else {
-            props.push({name:prefix, value:value});
+            addConfigProperty(props, prefix, value, depth);
         }
     } 
 
