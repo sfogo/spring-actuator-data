@@ -24,19 +24,19 @@
     // ===========================
     // Utils
     // ===========================
-    var configPropsSequence = {
+    var propSequence = {
         value : 0,
         reset : function() {value=0;},
         next : function() {return ++value;}
     }
 
-    var addConfigProperty = function(props, name, value, depth) {
+    var addProperty = function(props, name, value, depth) {
         // Counting skips separator values (whose depth is -1)
         props.push({
             name:name,
             value:value,
             depth:depth,
-            rank:depth==-1 ? -1 : configPropsSequence.next()
+            rank:depth==-1 ? -1 : propSequence.next()
         });
     }
 
@@ -49,11 +49,11 @@
     }
 
     var flattenConfigProps = function(data) {
-        configPropsSequence.reset();
+        propSequence.reset();
         var props = [];
         for (key in data) {
             var set = data[key];
-            addConfigProperty(props, set.prefix, key, -1);
+            addProperty(props, set.prefix, key, -1);
             flattenObjectProperties(props, set.prefix, set.properties, 1);
         }
         return props;
@@ -68,10 +68,10 @@
             }
             // Property whose value is an empty object.
             if (count==0) {
-                addConfigProperty(props, prefix, value, depth);
+                addProperty(props, prefix, value, depth);
             }
         } else {
-            addConfigProperty(props, prefix, value, depth);
+            addProperty(props, prefix, value, depth);
         }
     } 
 
