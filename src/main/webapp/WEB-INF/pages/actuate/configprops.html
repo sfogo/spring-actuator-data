@@ -8,18 +8,18 @@
         <tr ng-repeat="prop in values">
 
             <!-- Start of set -->
-            <td ng-if="prop.depth==-1" class="tdUP base" colspan="2">
+            <td ng-if="prop.depth==-1" class="padSN base">
                 <span class="fs90 roundedVal json">{{ prop.name }}</span>
             </td>
-            <td ng-if="prop.depth==-1" class="tdUP base wrapped" colspan="2">
-                <span class="fs90 ex00">{{ prop.value }}</span>
+            <td ng-if="prop.depth==-1" class="padSN base wrapped" colspan="3">
+                <span class="fs90 roundedVal json">{{ prop.value }}</span>
             </td>
 
             <!-- Item in set -->
-            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.depth }}</span></td>
-            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.name }}</span></td>
-            <td ng-if="prop.depth > 0" class="tdUP base wrapped"><span class="fs90">{{ prop.value }}</span></td>
-            <td ng-if="prop.depth > 0" class="tdUP base"><span class="fs90">{{ prop.rank }}</span></td>
+            <td ng-if="prop.depth > 0" class="bmBox base"><span class="fs90">{{ prop.name }}</span></td>
+            <td ng-if="prop.depth > 0" class="bmBox base wrapped"><span class="fs90">{{ prop.value }}</span></td>
+            <td ng-if="prop.depth > 0" class="bmBox base"><span class="fs90">{{ prop.rank }}</span></td>
+            <td ng-if="prop.depth > 0" class="bmBox base padLM"><span class="fs90">{{ prop.depth }}</span></td>
         </tr>
     </table>
     <div ng-show="error==true" class="pad4 tm10"><span class="ex01">Error</span></div>

@@ -30,6 +30,14 @@
         next : function() {return ++value;}
     }
 
+    var getObjectKeys = function(object) {
+        var keys = [];
+        for (key in object) {
+            keys.push(key);
+        }
+        return keys;
+    }
+
     var addProperty = function(props, name, value, depth) {
         // Counting skips separator values (whose depth is -1)
         props.push({
@@ -38,14 +46,6 @@
             depth:depth,
             rank:depth==-1 ? -1 : propSequence.next()
         });
-    }
-
-    var getObjectKeys = function(data) {
-        var keys = [];
-        for (key in data) {
-            keys.push(key);
-        }
-        return keys;
     }
 
     var concatPK = function(prefix,key) {

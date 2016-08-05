@@ -106,6 +106,18 @@ padding : 4px;
 vertical-align:top;
 }
 
+/* CSS Tables */
+.tTable   {display:table;}
+.tRow     {display:table-row;}
+.tCell    {display:table-cell;}
+.tHead    {display:table-header-group;}
+.tFoot    {display:table-footer-group;}
+.tBody    {display:table-row-group;}
+.tColumn  {display:table-column;}
+.tColGroup{display:table-column-group;}
+.tCaption {display:table-caption;}
+
+
 .li00 {font-style:italic;}
 .li01 {color:red;font-style:italic;}
 .ex00 {font-weight:bold;}
@@ -130,6 +142,7 @@ vertical-align:top;
 .padL4 {padding-left:4px;}
 .padLM {padding-left:20px;}
 .padLL {padding-left:40px;}
+.padSN {padding:16px 2px 4px 0px;}
 .mg4  {margin:4px;}
 .mg10 {margin:10px;}
 .mgL10{margin-left:10px;}
@@ -146,7 +159,9 @@ vertical-align:top;
 .wCOL1 {width:34%;}
 .wCOL2 {width:33%;}
 .wCOL3 {width:33%;}
-.wQTR  {width:25%;}
+.w1QT  {width:25%;}
+.w3QT  {width:75%;}
+.wFLL  {width:100%;}
 
 a.elm01:visited,a.elm01:link {color:blue;text-decoration:none;}
 a.elm01:hover,a.elm01:active {color:blue;text-decoration:underline;}
