@@ -48,22 +48,15 @@
         return keys;
     }
 
-    var flattenConfigProps = function(data) {
-        propSequence.reset();
-        var props = [];
-        for (key in data) {
-            var set = data[key];
-            addProperty(props, set.prefix, key, -1);
-            flattenObjectProperties(props, set.prefix, set.properties, 1);
-        }
-        return props;
+    var makeKey = function(prefix,key) {
+        return (prefix==null || prefix==undefined) ? key : prefix + '.' + key;
     }
 
     var flattenObjectProperties = function(props, prefix, value, depth) {
         if (value!=undefined && typeof(value)=='object') {
             var count = 0;
             for (key in value) {
-                flattenObjectProperties(props, prefix+'.'+key, value[key], 1+depth);
+                flattenObjectProperties(props, makeKey(prefix,key), value[key], 1+depth);
                 count++;
             }
             // Property whose value is an empty object.
@@ -75,7 +68,7 @@
         }
     } 
 
-    var getManagementData = function(scope, http, resources, dataTransform) {
+    var getManagementData = function(scope, http, resources, dataTransformation) {
         scope.data = null;
         scope.error = false;
         scope.wheel = false;
@@ -91,8 +84,8 @@
                     scope.data = response.data;
                     scope.error = false;
                     scope.wheel = false;
-                    if (dataTransform != null) {
-                        scope.values = dataTransform(scope.data);
+                    if (dataTransformation != null) {
+                        scope.values = dataTransformation(scope.data);
                     }
                 },
                 function(response) {
@@ -131,8 +124,16 @@
     // Environment Controller
     // ===========================
     app.controller('envController', function($scope,$http) {
-        getManagementData($scope,$http,'env',getObjectKeys);
-        $scope.getEnvKeys = function(object) {return getObjectKeys(object);}
+        getManagementData($scope,$http,'env',function(data) {
+            propSequence.reset();
+            var props = [];
+            for (key in data) {
+                var set = data[key];
+                addProperty(props, key, key, -1);
+                flattenObjectProperties(props, null, set, 1);
+            }
+            return props;
+        });
     });
  
     // ===========================
@@ -146,7 +147,16 @@
     // Config Props Controller
     // ===========================
     app.controller('configpropsController', function($scope,$http) {
-        getManagementData($scope,$http,'configprops',flattenConfigProps);
+        getManagementData($scope,$http,'configprops',function(data) {
+            propSequence.reset();
+            var props = [];
+            for (key in data) {
+                var set = data[key];
+                addProperty(props, set.prefix, key, -1);
+                flattenObjectProperties(props, set.prefix, set.properties, 1);
+            }
+            return props;
+        });
     });
 
     // ===========================
