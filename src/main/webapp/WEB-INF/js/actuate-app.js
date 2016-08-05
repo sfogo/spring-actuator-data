@@ -48,7 +48,7 @@
         return keys;
     }
 
-    var makeKey = function(prefix,key) {
+    var concatPK = function(prefix,key) {
         return (prefix==null || prefix==undefined) ? key : prefix + '.' + key;
     }
 
@@ -56,7 +56,7 @@
         if (value!=undefined && typeof(value)=='object') {
             var count = 0;
             for (key in value) {
-                flattenObjectProperties(props, makeKey(prefix,key), value[key], 1+depth);
+                flattenObjectProperties(props, concatPK(prefix,key), value[key], 1+depth);
                 count++;
             }
             // Property whose value is an empty object.
