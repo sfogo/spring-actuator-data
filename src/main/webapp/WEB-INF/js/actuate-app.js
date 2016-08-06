@@ -81,7 +81,7 @@
         }
     }
 
-    var getManagementData = function(scope, http, resources, dataTransformation) {
+    var getManagementData = function(scope, http, resources) {
         scope.data = null;
         scope.error = false;
         scope.wheel = false;
@@ -97,16 +97,16 @@
                     scope.data = response.data;
                     scope.error = false;
                     scope.wheel = false;
-                    if (dataTransformation != null) {
-                        scope.values = dataTransformation(scope.data);
+                    if (scope.dataTransformation) {
+                        scope.values = scope.dataTransformation(scope.data);
                     }
                 },
                 function(response) {
                     scope.data = response.data;
                     scope.error = true;
                     scope.wheel = false;
-                    if (scope.transformError && dataTransformation != null) {
-                        scope.values = dataTransformation(scope.data);
+                    if (scope.transformError && scope.dataTransformation) {
+                        scope.values = scope.dataTransformation(scope.data);
                     }
                 }
             );
@@ -119,41 +119,45 @@
     // Health Controller
     // ===========================
     app.controller('healthController', function($scope,$http) {
-        $scope.transformError=true;
-        getManagementData($scope,$http,'health',function(data) {
+        $scope.transformError = true;
+        $scope.dataTransformation = function(data) {
             propSequence.reset();
             var props = [];
             flattenObjectProperties(props, null, data, 1);
             return props;
-        });
+        };
+
+        getManagementData($scope,$http,'health');
     });
 
     // ===========================
     // Bean Controller
     // ===========================
     app.controller('beanController', function($scope,$http) {
-        getManagementData($scope,$http,'beans',null);
+        getManagementData($scope,$http,'beans');
     });
 
     // ===========================
     // Metrics Controller
     // ===========================
     app.controller('metricsController', function($scope,$http) {
-        getManagementData($scope,$http,'metrics',getObjectKeys);
+        $scope.dataTransformation = getObjectKeys;
+        getManagementData($scope,$http,'metrics');
     });
 
     // ===========================
     // Mappings Controller
     // ===========================
     app.controller('mappingsController', function($scope,$http) {
-        getManagementData($scope,$http,'mappings',getObjectKeys);
+        $scope.dataTransformation = getObjectKeys;
+        getManagementData($scope,$http,'mappings');
     });
 
     // ===========================
     // Environment Controller
     // ===========================
     app.controller('envController', function($scope,$http) {
-        getManagementData($scope,$http,'env',function(data) {
+        $scope.dataTransformation = function(data) {
             propSequence.reset();
             var props = [];
             for (var key in data) {
@@ -162,19 +166,21 @@
                 flattenObjectProperties(props, null, set, 1);
             }
             return props;
-        });
+        };
+        getManagementData($scope,$http,'env');
     });
  
     // ===========================
     // Config Props Controller
     // ===========================
     app.controller('configpropsController', function($scope,$http) {
-        getManagementData($scope,$http,'configprops',function(data) {
+        $scope.dataTransformation = function(data) {
             propSequence.reset();
             var props = [];
             flattenConfigProperties(props,data,null);
             return props;
-        });
+        };
+        getManagementData($scope,$http,'configprops');
     });
 
     // ===========================
