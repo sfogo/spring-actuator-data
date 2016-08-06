@@ -105,6 +105,9 @@
                     scope.data = response.data;
                     scope.error = true;
                     scope.wheel = false;
+                    if (scope.transformError && dataTransformation != null) {
+                        scope.values = dataTransformation(scope.data);
+                    }
                 }
             );
         };
@@ -113,17 +116,23 @@
     }
 
     // ===========================
+    // Health Controller
+    // ===========================
+    app.controller('healthController', function($scope,$http) {
+        $scope.transformError=true;
+        getManagementData($scope,$http,'health',function(data) {
+            propSequence.reset();
+            var props = [];
+            flattenObjectProperties(props, null, data, 1);
+            return props;
+        });
+    });
+
+    // ===========================
     // Bean Controller
     // ===========================
     app.controller('beanController', function($scope,$http) {
         getManagementData($scope,$http,'beans',null);
-    });
-
-    // ===========================
-    // Health Controller
-    // ===========================
-    app.controller('healthController', function($scope,$http) {
-        getManagementData($scope,$http,'health',null);
     });
 
     // ===========================
