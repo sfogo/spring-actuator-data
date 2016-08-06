@@ -68,26 +68,16 @@
         }
     } 
 
-    var objectIsConfigPropsSet = function(object) {
-        return object.hasOwnProperty('prefix') && object.hasOwnProperty('properties');   
+    var objectIsConfigPropsSet = function(o) {
+        return typeof(o)=='object' && o.hasOwnProperty('prefix') && o.hasOwnProperty('properties');   
     }
 
     var flattenConfigProperties = function(props, data, parent) {
-        for (var key in data) {
-            var set = data[key];
-            if (objectIsConfigPropsSet(set)) {
-                addProperty(props, set.prefix, concatPK(parent,key), -1);
-                flattenObjectProperties(props, set.prefix, set.properties, 1);
-            } else {
-                for (var k in set) {
-                    if (objectIsConfigPropsSet(set[k])) {
-                        addProperty(props, set[k].prefix, concatPK(parent,concatPK(key,k)), -1);
-                        flattenObjectProperties(props, set[k].prefix, set[k].properties, 1);
-                    } else {
-                        flattenConfigProperties(props, set[k], concatPK(parent,concatPK(key,k)));
-                    }
-                }    
-            }
+        if (objectIsConfigPropsSet(data)) {
+            addProperty(props, data.prefix, parent, -1);
+            flattenObjectProperties(props, data.prefix, data.properties, 1);
+        } else for (var key in data) {
+            flattenConfigProperties(props, data[key], concatPK(parent,key))
         }
     }
 
