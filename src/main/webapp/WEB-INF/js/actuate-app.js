@@ -187,10 +187,12 @@
     // Page0 Controller
     // ===========================
     app.controller('page0Controller', function($scope,$http) {
-        $scope.ownURL = managementURL;
         $scope.actuateURL = managementURL;
-        $scope.setManagementURL = function() {
-            managementURL = $scope.actuateURL;
+        $scope.setManagementURL = function() {managementURL = $scope.actuateURL;}
+        $scope.localReset = function() {
+            managementURL = initManagementURL();
+            // TODO : look into $apply
+            document.getElementById('actu').value = managementURL;
         }
     });
 
