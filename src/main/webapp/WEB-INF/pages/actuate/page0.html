@@ -1,7 +1,9 @@
 <div class="mg4" ng-controller="page0Controller">
 	<div>This is Actuate Page0</div>
+	<div>Actuator endpoints are at <span class="json">{{ ownURL }}</span></div>
 	<div>&nbsp;</div>
 	<div class="bm10">
+		<div><span class="ex01">You may explore actuator data of another application provided its CORS and security settings let you through.</span></div>
 		<span>Actuate URL</span>&nbsp;
 		<input type="text" class="wCOL1" ng-model="actuateURL"/>&nbsp;
 		<input type="button" value="Set Actuate URL" ng-click="setManagementURL();"/>
