@@ -1,7 +1,7 @@
 (function() {
 
     var app = angular.module('actuate', ['ngRoute']);
-    var managementURL = getManagementURL();
+    var managementURL = initManagementURL();
 
     app.config(function($routeProvider) {
         $routeProvider.when('/health',{
@@ -187,7 +187,10 @@
     // Page0 Controller
     // ===========================
     app.controller('page0Controller', function($scope,$http) {
-        $scope.error = false;
+        $scope.actuateURL = managementURL;
+        $scope.setManagementURL = function() {
+            managementURL = $scope.actuateURL;
+        }
     });
 
     // ===========================
@@ -198,7 +201,7 @@
 // ===========================
 // A few functions
 // ===========================
-function getManagementURL() {
+function initManagementURL() {
     // HEROKU
     if (document.domain.endsWith('.herokuapp.com'))
         return 'https://azonzo.herokuapp.com/actuate';
