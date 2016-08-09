@@ -5,11 +5,16 @@
         <span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span>
     </div>
 
-    <div class="tTable">
+    <div ng-show="data" class="tTable">
         <div ng-repeat="prop in values" class="tRow">
             <div class="tCell pad2 bmBox"><span class="fs90">{{ prop.name }}</span></div>
             <div class="tCell pad2 bmBox wrapped"><span class="fs90">{{ prop.value }}</span></div>
         </div>
+    </div>
+
+    <div ng-show="error==true">
+        <div ng-show="data"><span class="li01">Error {{ data.status }} : {{ data.data.error_description }}</span></div>
+        <div ng-hide="data"><span class="li01">Connection refused or access not allowed.</span></div>
     </div>
 
 </div>
