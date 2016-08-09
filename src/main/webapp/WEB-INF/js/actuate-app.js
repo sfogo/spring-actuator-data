@@ -85,35 +85,29 @@
         scope.url = managementURL + '/' + resources;
         scope.data = null;
         scope.error = false;
-        scope.wheel = false;
-
-        scope.getData = function() {
-            scope.wheel = true;
-            var request = {
-                method : 'GET',
-                url : scope.url
-            };
-            http(request).then(
-                function(response) {
-                    scope.data = response.data;
-                    scope.error = false;
-                    scope.wheel = false;
-                    if (scope.dataTransformation) {
-                        scope.values = scope.dataTransformation(scope.data);
-                    }
-                },
-                function(response) {
-                    scope.data = response.data;
-                    scope.error = true;
-                    scope.wheel = false;
-                    if (scope.transformError && scope.dataTransformation) {
-                        scope.values = scope.dataTransformation(scope.data);
-                    }
-                }
-            );
+        scope.wheel = true;
+        var request = {
+            method : 'GET',
+            url : scope.url
         };
-
-        scope.getData();
+        http(request).then(
+            function(response) {
+                scope.data = response.data;
+                scope.error = false;
+                scope.wheel = false;
+                if (scope.dataTransformation) {
+                    scope.values = scope.dataTransformation(scope.data);
+                }
+            },
+            function(response) {
+                scope.data = response.data;
+                scope.error = true;
+                scope.wheel = false;
+                if (scope.transformError && scope.dataTransformation) {
+                    scope.values = scope.dataTransformation(scope.data);
+                }
+            }
+        );
     }
 
     // ===========================
