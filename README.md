@@ -7,8 +7,7 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 
 ## Examples and screen shots (Heroku)
 ### Check the app is up and running
-- Go to `https://azonzo.herokuapp.com/hello`
-- You may have to wait and refresh your browser a few times before you stop getting Heroku `Application Error` page.
+- Go to `https://azonzo.herokuapp.com/hello` (_It's on Heroku free tier so you may have to wait until app wakes up. Refresh your browser until you stop seeing Heroku `Application Error` page_).
 
 ### Actuator endpoints
 - They are at `https://azonzo.herokuapp.com/actuate/{resources}`
@@ -17,11 +16,11 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 ### AngularJS Application
 - Go to `https://azonzo.herokuapp.com/app/actuate/index.html`
 - Health `https://azonzo.herokuapp.com/app/actuate/index.html#/health`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17454906/0002101c-5b5c-11e6-83c0-e6722408e779.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17524618/39cb5c30-5e14-11e6-89e8-35952a81bc86.png"
      border="0" width="80%" />
 - Config Props `https://azonzo.herokuapp.com/app/actuate/index.html#/configprops`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17454905/fff87d0e-5b5b-11e6-9fdb-2e5cf2f47280.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17524616/39af0832-5e14-11e6-88e7-5fdd420bd8ad.png"
      border="0" width="80%" />
 - Environment `https://azonzo.herokuapp.com/app/actuate/index.html#/env`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17454904/ffe3e402-5b5b-11e6-92b5-5e3e7e441476.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17524617/39c66e78-5e14-11e6-9cb9-6ad6c35ef806.png"
      border="0" width="80%" />
