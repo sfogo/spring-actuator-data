@@ -82,6 +82,7 @@
     }
 
     var getManagementData = function(scope, http, resources) {
+        scope.url = managementURL + '/' + resources;
         scope.data = null;
         scope.error = false;
         scope.wheel = false;
@@ -90,7 +91,7 @@
             scope.wheel = true;
             var request = {
                 method : 'GET',
-                url : managementURL + '/' + resources
+                url : scope.url
             };
             http(request).then(
                 function(response) {

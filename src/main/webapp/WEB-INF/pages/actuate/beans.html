@@ -1,5 +1,9 @@
 <div class="mg4" ng-controller="beanController">
-    <div class="aBox pad4 bg5 bm10"><span class="ex00">Beans</span></div>
+    <div class="aBox pad4 bg5 bm10">
+        <span class="ex00">Beans</span>
+        <span class="fmtValue">{{ url }}</span>&nbsp;
+        <span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span>
+    </div>
     <table ng-show="error==false" class="tb01">
         <tr>
             <td class="td00 base"><span class="ex00">Bean</span></td>
