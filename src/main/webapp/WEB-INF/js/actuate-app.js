@@ -162,7 +162,8 @@
             for (var key in data) {
                 // key sample :
                 // {[/actuate/env || /actuate/env.json],methods=[GET],produces=[application/json]}
-                if (key.indexOf('methods=[GET]') > 0) {
+                if (key.indexOf('methods=[GET]') > 0 &&
+                    key.indexOf('application/octet-stream')==-1) {
                     var b = key.indexOf('[');
                     var e = key.indexOf(']');
                     if (b>=0 && e>=0) {
