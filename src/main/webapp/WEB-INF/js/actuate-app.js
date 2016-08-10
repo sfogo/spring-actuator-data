@@ -1,7 +1,9 @@
 (function() {
 
     var app = angular.module('actuate', ['ngRoute']);
-    var managementURL = initManagementURL();
+    var managementPath = '/actuate';
+    var getManagementURL = function() {return getBaseURL() + managementPath;};
+    var managementURL = getManagementURL();
 
     app.config(function($routeProvider) {
         $routeProvider.when('/health',{
@@ -16,6 +18,8 @@
             templateUrl : 'mappings.html'
         }).when('/configprops',{
             templateUrl : 'configprops.html'
+        }).when('/genericget',{
+            templateUrl : 'genericget.html'
         }).otherwise({
             templateUrl : 'page0.html'
         }); 
@@ -28,7 +32,7 @@
         value : 0,
         reset : function() {value=0;},
         next : function() {return ++value;}
-    }
+    };
 
     var getObjectKeys = function(object) {
         var keys = [];
@@ -36,7 +40,7 @@
             keys.push(key);
         }
         return keys;
-    }
+    };
 
     var addProperty = function(props, name, value, depth) {
         // Counting skips separator values (whose depth is -1)
@@ -46,11 +50,11 @@
             depth:depth,
             rank:depth==-1 ? -1 : propSequence.next()
         });
-    }
+    };
 
     var concatPK = function(prefix,key) {
         return (prefix==null || prefix==undefined) ? key : prefix + '.' + key;
-    }
+    };
 
     var flattenObjectProperties = function(props, prefix, value, depth) {
         if (value!=undefined && typeof(value)=='object') {
@@ -66,11 +70,11 @@
         } else {
             addProperty(props, prefix, value, depth);
         }
-    } 
+    };
 
     var objectIsConfigPropsSet = function(o) {
         return typeof(o)=='object' && o.hasOwnProperty('prefix') && o.hasOwnProperty('properties');   
-    }
+    };
 
     var flattenConfigProperties = function(props, data, parent) {
         if (objectIsConfigPropsSet(data)) {
@@ -79,7 +83,7 @@
         } else for (var key in data) {
             flattenConfigProperties(props, data[key], concatPK(parent,key))
         }
-    }
+    };
 
     var getManagementData = function(scope, http, resources) {
         scope.url = managementURL + '/' + resources;
@@ -108,7 +112,7 @@
                 }
             }
         );
-    }
+    };
 
     // ===========================
     // Health Controller
@@ -149,6 +153,48 @@
     });
 
     // ===========================
+    // Generic GET Controller
+    // ===========================
+    app.controller('genericgetController', function($scope,$http) {
+        $scope.dataTransformation = function(data) {
+            propSequence.reset();
+            var props = [];
+            for (var key in data) {
+                // key sample :
+                // {[/actuate/env || /actuate/env.json],methods=[GET],produces=[application/json]}
+                if (key.indexOf('methods=[GET]') > 0) {
+                    var b = key.indexOf('[');
+                    var e = key.indexOf(']');
+                    if (b>=0 && e>=0) {
+                        var paths = key.substring(1+b,e).split(' || '); 
+                        for (var p in paths) {
+                            props.push({path:paths[p],method:'GET'});
+                        }
+                    }
+                }
+            }
+            return props;
+        };
+
+        $scope.selectedPath='/hello';
+        $scope.baseURL = getBaseUrlFromManagementUrl(managementURL);
+        $scope.response = {};
+        $scope.getDataURL = function () {return $scope.baseURL + $scope.selectedPath;};
+        $scope.setInputURL = function() {$scope.inputURL = $scope.getDataURL();};
+
+        $scope.setInputURL();
+        getManagementData($scope,$http,'mappings');
+
+        $scope.doGet = function() {
+            var request = {method:'GET',url:$scope.inputURL};
+            $http(request).then(
+                function(response) {$scope.response = response;},
+                function(response) {$scope.response = response;}
+            );
+        }
+    });
+
+    // ===========================
     // Environment Controller
     // ===========================
     app.controller('envController', function($scope,$http) {
@@ -185,7 +231,7 @@
         $scope.actuateURL = managementURL;
         $scope.setManagementURL = function() {managementURL = $scope.actuateURL;}
         $scope.localReset = function() {
-            managementURL = initManagementURL();
+            managementURL = getManagementURL();
             // TODO : look into $apply
             document.getElementById('actu').value = managementURL;
         }
@@ -199,15 +245,26 @@
 // ===========================
 // A few functions
 // ===========================
-function initManagementURL() {
+function getBaseUrlFromManagementUrl(mu) {
+    // TODO should get it dynamically !
+    var n = mu.indexOf('/admin');
+    if (n>=0) return mu.substring(0,n);
+
+    n = mu.indexOf('/actuate');
+    if (n>=0) return mu.substring(0,n);
+
+    return mu;
+}
+
+function getBaseURL() {
     // HEROKU
     if (document.domain.endsWith('.herokuapp.com'))
-        return 'https://azonzo.herokuapp.com/actuate';
+        return 'https://azonzo.herokuapp.com';
 
     // Tomcat local, No Nginx
     if (document.URL.startsWith('http://localhost:8080/actu'))
-        return 'http://localhost:8080/actu/actuate';
+        return 'http://localhost:8080/actu';
 
     // webapp runner, no Nginx
-    return 'http://localhost:8080/actuate' ;
+    return 'http://localhost:8080' ;
 }

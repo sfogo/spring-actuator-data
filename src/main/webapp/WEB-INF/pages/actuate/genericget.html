@@ -1,0 +1,29 @@
+<div class="mg4" ng-controller="genericgetController">
+    <div class="aBox pad4 bg5 bm10">
+        <span class="ex00">GET</span>&nbsp;
+        <span class="fmtValue">{{ baseURL }}</span>
+        <select ng-model="selectedPath"
+                ng-options="item.path as item.path for item in values"
+                ng-show="error==false"
+                ng-change="setInputURL();">
+        </select>
+        <span ng-show="wheel==true">&nbsp;<img src="/images/wheel.gif" border="0"/></span>
+    </div>
+
+    <div class="tTable wFLL">
+        <div class="tRow wFLL">
+            <div class="tCell wFLL"><input class="wFLL" ng-model="inputURL" /></div>
+            <div class="tCell bg5"><input type="submit" value="Get Data" ng-click="doGet();"/></div>
+        </div>
+    </div>
+
+    <div class="aBox pad4 tm10">
+        <div class="bm10">Response <span class="ex01">{{ response.status }} {{ response.statusText }}</span></div>
+        <div class="wrapped"><span class="fs90">{{ response.data }}</span></div>
+    </div>
+
+    <div class="hidden">Selected Path : {{ selectedPath }}</div>
+    <div class="hidden">Base URL : {{ baseURL }}</div>
+
+    <div ng-show="error==true" class="pad4 tm10"><span class="ex01"> {{ data }}</span></div>
+</div>
