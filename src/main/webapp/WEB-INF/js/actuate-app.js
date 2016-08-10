@@ -1,9 +1,8 @@
 (function() {
 
     var app = angular.module('actuate', ['ngRoute']);
-    var managementPath = '/actuate';
-    var getManagementURL = function() {return getBaseURL() + managementPath;};
-    var managementURL = getManagementURL();
+    var managementContextPath = '/actuate';
+    var managementURL = localManagementURL();
 
     app.config(function($routeProvider) {
         $routeProvider
@@ -170,7 +169,7 @@
         };
 
         $scope.selectedPath='/hello';
-        $scope.baseURL = getBaseUrlFromManagementUrl(managementURL);
+        $scope.baseURL = getBaseURL(managementURL,managementContextPath);
         $scope.response = {};
         $scope.getDataURL = function () {return $scope.baseURL + $scope.selectedPath;};
         $scope.setInputURL = function() {$scope.inputURL = $scope.getDataURL();};
@@ -222,12 +221,24 @@
     // ===========================
     app.controller('page0Controller', function($scope,$http) {
         $scope.actuateURL = managementURL;
-        $scope.setManagementURL = function() {managementURL = $scope.actuateURL;}
+        $scope.setManagementURL = function() {
+            managementURL = $scope.actuateURL;
+            $scope.findManagenentContextPath();
+        };
         $scope.localReset = function() {
-            managementURL = getManagementURL();
-            // TODO : look into $apply
-            document.getElementById('actu').value = managementURL;
-        }
+            managementURL = localManagementURL();
+            $scope.actuateURL = managementURL;
+            $scope.warning=undefined;
+        };
+        $scope.findManagenentContextPath = function() {
+            var key = 'management.context-path';
+            var request = {method:'GET',url:managementURL+'/env/'+key};
+            $scope.warning=undefined; 
+            $http(request).then(
+                function(response) {managementContextPath=response.data[key];},
+                function(response) {$scope.warning='This does not appear to be an Actuate URL';}
+            );
+        };
     });
 
     // ===========================
@@ -238,18 +249,12 @@
 // ===========================
 // A few functions
 // ===========================
-function getBaseUrlFromManagementUrl(mu) {
-    // TODO should get it dynamically !
-    var n = mu.indexOf('/admin');
-    if (n>=0) return mu.substring(0,n);
-
-    n = mu.indexOf('/actuate');
-    if (n>=0) return mu.substring(0,n);
-
-    return mu;
+function getBaseURL(mu,mp) {
+    var n = mu.indexOf(mp);
+    return (n>=0) ? mu.substring(0,n) : mu;
 }
 
-function getBaseURL() {
+function localBaseURL() {
     // HEROKU
     if (document.domain.endsWith('.herokuapp.com'))
         return 'https://azonzo.herokuapp.com';
@@ -260,4 +265,8 @@ function getBaseURL() {
 
     // webapp runner, no Nginx
     return 'http://localhost:8080' ;
+}
+
+function localManagementURL() {
+    return localBaseURL() + '/actuate'; 
 }
