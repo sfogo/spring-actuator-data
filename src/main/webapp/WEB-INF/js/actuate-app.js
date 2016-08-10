@@ -76,8 +76,8 @@
         }
     };
 
-    var getManagementData = function(scope, http, resources) {
-        scope.url = managementURL + '/' + resources;
+    var getActuatorData = function(scope, http, resource) {
+        scope.url = managementURL + '/' + resource;
         scope.data = null;
         scope.error = false;
         scope.wheel = true;
@@ -117,14 +117,14 @@
             return props;
         };
 
-        getManagementData($scope,$http,'health');
+        getActuatorData($scope,$http,'health');
     });
 
     // ===========================
     // Bean Controller
     // ===========================
     app.controller('beanController', function($scope,$http) {
-        getManagementData($scope,$http,'beans');
+        getActuatorData($scope,$http,'beans');
     });
 
     // ===========================
@@ -132,7 +132,7 @@
     // ===========================
     app.controller('metricsController', function($scope,$http) {
         $scope.dataTransformation = getObjectKeys;
-        getManagementData($scope,$http,'metrics');
+        getActuatorData($scope,$http,'metrics');
     });
 
     // ===========================
@@ -140,11 +140,14 @@
     // ===========================
     app.controller('mappingsController', function($scope,$http) {
         $scope.dataTransformation = getObjectKeys;
-        getManagementData($scope,$http,'mappings');
+        getActuatorData($scope,$http,'mappings');
     });
 
     // ===========================
-    // Generic GET Controller
+    // Generic GET Controller :
+    // Get actuator mappings and
+    // present them in dropdown
+    // of genericget.html
     // ===========================
     app.controller('genericgetController', function($scope,$http) {
         $scope.dataTransformation = function(data) {
@@ -168,22 +171,21 @@
             return props;
         };
 
-        $scope.selectedPath='/hello';
-        $scope.baseURL = getBaseURL(managementURL,managementContextPath);
-        $scope.response = {};
-        $scope.getDataURL = function () {return $scope.baseURL + $scope.selectedPath;};
-        $scope.setInputURL = function() {$scope.inputURL = $scope.getDataURL();};
-
-        $scope.setInputURL();
-        getManagementData($scope,$http,'mappings');
-
         $scope.doGet = function() {
             var request = {method:'GET',url:$scope.inputURL};
             $http(request).then(
                 function(response) {$scope.response = response;},
                 function(response) {$scope.response = response;}
             );
-        }
+        };
+
+        $scope.selectedPath=managementContextPath+'/info';
+        $scope.baseURL = getBaseURL(managementURL,managementContextPath);
+        $scope.response = {};
+        $scope.getDataURL = function () {return $scope.baseURL + $scope.selectedPath;};
+        $scope.setInputURL = function() {$scope.inputURL = $scope.getDataURL();};
+        $scope.setInputURL();
+        getActuatorData($scope,$http,'mappings');
     });
 
     // ===========================
@@ -200,7 +202,7 @@
             }
             return props;
         };
-        getManagementData($scope,$http,'env');
+        getActuatorData($scope,$http,'env');
     });
  
     // ===========================
@@ -213,7 +215,7 @@
             flattenConfigProperties(props,data,null);
             return props;
         };
-        getManagementData($scope,$http,'configprops');
+        getActuatorData($scope,$http,'configprops');
     });
 
     // ===========================
@@ -228,7 +230,7 @@
         $scope.localReset = function() {
             managementURL = localManagementURL();
             $scope.actuateURL = managementURL;
-            $scope.warning=undefined;
+            $scope.findManagenentContextPath();
         };
         $scope.findManagenentContextPath = function() {
             var key = 'management.context-path';
