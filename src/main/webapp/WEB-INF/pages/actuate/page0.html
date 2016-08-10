@@ -7,5 +7,11 @@
 		<input id="actu" type="text" class="wCOL1" ng-model="actuateURL"/>&nbsp;
 		<input id="btn1" type="button" value="Set Actuate URL" ng-click="setManagementURL();"/>&nbsp;
 		<input id="btn2" type="button" value="Local Reset" ng-click="localReset();"/>&nbsp;
+		
+		<div ng-show="warning">
+			<span class="padLM">&nbsp;</span>
+			<span class="padLM">&nbsp;</span>
+			<span class="padLM li01">{{ warning }}</span>
+		</div>
 	</div>
 </div>
