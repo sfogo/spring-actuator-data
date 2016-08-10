@@ -6,23 +6,15 @@
     var managementURL = getManagementURL();
 
     app.config(function($routeProvider) {
-        $routeProvider.when('/health',{
-            templateUrl : 'health.html'
-        }).when('/metrics',{
-            templateUrl : 'metrics.html'
-        }).when('/beans',{
-            templateUrl : 'beans.html'
-        }).when('/env',{
-            templateUrl : 'env.html'
-        }).when('/mappings',{
-            templateUrl : 'mappings.html'
-        }).when('/configprops',{
-            templateUrl : 'configprops.html'
-        }).when('/genericget',{
-            templateUrl : 'genericget.html'
-        }).otherwise({
-            templateUrl : 'page0.html'
-        }); 
+        $routeProvider
+            .when('/health', {templateUrl : 'health.html'})
+            .when('/metrics',{templateUrl : 'metrics.html'})
+            .when('/beans',  {templateUrl : 'beans.html'})
+            .when('/env',    {templateUrl : 'env.html'})
+            .when('/mappings',   {templateUrl : 'mappings.html'})
+            .when('/configprops',{templateUrl : 'configprops.html'})
+            .when('/genericget', {templateUrl : 'genericget.html'})
+            .otherwise({templateUrl : 'page0.html'}); 
     });
 
     // ===========================
@@ -166,7 +158,7 @@
                     key.indexOf('application/octet-stream')==-1) {
                     var b = key.indexOf('[');
                     var e = key.indexOf(']');
-                    if (b>=0 && e>=0) {
+                    if (b>=0 && e>b) {
                         var paths = key.substring(1+b,e).split(' || '); 
                         for (var p in paths) {
                             props.push({path:paths[p],method:'GET'});
