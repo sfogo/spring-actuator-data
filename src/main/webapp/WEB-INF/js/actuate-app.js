@@ -238,7 +238,16 @@
             $scope.warning=undefined; 
             $http(request).then(
                 function(response) {managementContextPath=response.data[key];},
-                function(response) {$scope.warning='This does not appear to be an Actuate URL';}
+                function(response) {
+                    $scope.warning='Could not find /env/' + key;
+                    $scope.checkInfo();
+                }
+            );
+        };
+        $scope.checkInfo = function() {
+            var request = {method:'GET',url:managementURL+'/info'};
+            $http(request).then(function(response) {$scope.warning += ' but found /info';},
+                function(response) {$scope.warning += '. Could not find /info either. Check Actuate URL';}
             );
         };
     });
