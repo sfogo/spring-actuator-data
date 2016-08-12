@@ -2,6 +2,7 @@
 
     var app = angular.module('actuate', ['ngRoute']);
     var managementURL = localManagementURL();
+    var managementAuth = null;
     var managementContextPath = getManagementPath(managementURL,localBaseURL());
 
     app.config(function($routeProvider) {
@@ -81,10 +82,11 @@
         scope.data = null;
         scope.error = false;
         scope.wheel = true;
-        var request = {
-            method : 'GET',
-            url : scope.url
-        };
+
+        var request = (managementAuth==null) ?
+            {method:'GET',url:scope.url} :
+            {method:'GET',url:scope.url,headers:{'Authorization':managementAuth}} ;
+
         http(request).then(
             function(response) {
                 scope.data = response.data;
@@ -223,20 +225,34 @@
     // ===========================
     app.controller('page0Controller', function($scope,$http) {
         $scope.actuateURL = managementURL;
+        $scope.showAuth = false;
+        $scope.auth = managementAuth;
+
+        var getRequest = function(r) {
+            return ($scope.auth==null||$scope.auth==undefined) ?
+                {method:'GET',url:managementURL+r} :
+                {method:'GET',url:managementURL+r,headers:{'Authorization':$scope.auth}} ;
+        };
+
         $scope.setManagementURL = function() {
             managementURL = $scope.actuateURL;
-            $scope.findManagenentContextPath();
+            managementAuth = $scope.auth;
+            $scope.findManagementContextPath();
         };
         $scope.localReset = function() {
             managementURL = localManagementURL();
+            managementAuth = null;
+            $scope.auth = null;
+            $scope.showAuth = false;
             $scope.actuateURL = managementURL;
-            $scope.findManagenentContextPath();
+            $scope.findManagementContextPath();
         };
-        $scope.findManagenentContextPath = function() {
+        $scope.toggleAuth = function() {$scope.showAuth = !$scope.showAuth;};
+
+        $scope.findManagementContextPath = function() {
             var key = 'management.context-path';
-            var request = {method:'GET',url:managementURL+'/env/'+key};
             $scope.warning=undefined; 
-            $http(request).then(
+            $http(getRequest('/env/'+key)).then(
                 function(response) {
                     managementContextPath=response.data[key];
                 },
@@ -248,8 +264,8 @@
             );
         };
         $scope.checkInfo = function() {
-            var request = {method:'GET',url:managementURL+'/info'};
-            $http(request).then(function(response) {$scope.warning += ' but found /info';},
+            $http(getRequest('/info')).then(
+                function(response) {$scope.warning += ' but found /info';},
                 function(response) {$scope.warning += '. Could not find /info either. Check Actuate URL';}
             );
         };

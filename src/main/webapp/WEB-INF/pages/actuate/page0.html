@@ -1,17 +1,26 @@
 <div class="mg4" ng-controller="page0Controller">
-	<div>This is Actuate Page0</div>
-	<div>&nbsp;</div>
-	<div class="bm10">
-		<div><span class="ex01">You may explore actuator data of another application provided its CORS and security settings let you through.</span></div>
-		<span>Actuate URL</span>&nbsp;
-		<input id="actu" type="text" class="wCOL1" ng-model="actuateURL"/>&nbsp;
-		<input id="btn1" type="button" value="Set Actuate URL" ng-click="setManagementURL();"/>&nbsp;
-		<input id="btn2" type="button" value="Local Reset" ng-click="localReset();"/>&nbsp;
-		
-		<div ng-show="warning">
-			<span class="padLM">&nbsp;</span>
-			<span class="padLM">&nbsp;</span>
-			<span class="padLM ex01">{{ warning }}</span>
+	<div class="bm20">Welcome!</div>
+
+	<div>
+		<div>
+			<div>Actuate URL</div>
+			<input type="text" class="wCOL1" ng-model="actuateURL"/>&nbsp;
+			<input type="button" value="Check" ng-click="setManagementURL();"/>&nbsp;
+			<input type="button" value="Authorization" ng-click="toggleAuth();"/>&nbsp;
+			<input type="button" value="Local Reset" ng-click="localReset();"/>&nbsp;
 		</div>
+		
+		<div ng-show="showAuth==true" class="tm10">
+			<div>Authorization</div>
+			<input type="text" class="wCOL1" ng-model="auth"/>
+		</div>
+
+		<div ng-show="warning">
+			<span class="ex01">{{ warning }}</span>
+		</div>
+
+		<div class="tm20"><span class="ex01">You may explore actuator data of another application provided its CORS and security settings let you through.</span></div>
+
 	</div>
+
 </div>
