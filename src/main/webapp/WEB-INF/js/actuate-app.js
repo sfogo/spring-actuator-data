@@ -1,8 +1,8 @@
 (function() {
 
     var app = angular.module('actuate', ['ngRoute']);
-    var managementContextPath = '/actuate';
     var managementURL = localManagementURL();
+    var managementContextPath = getManagementPath(managementURL,localBaseURL());
 
     app.config(function($routeProvider) {
         $routeProvider
@@ -179,7 +179,7 @@
             );
         };
 
-        $scope.selectedPath=managementContextPath+'/info';
+        $scope.selectedPath = concatBP(managementContextPath,'/info');
         $scope.baseURL = getBaseURL(managementURL,managementContextPath);
         $scope.response = {};
         $scope.getDataURL = function () {return $scope.baseURL + $scope.selectedPath;};
@@ -237,8 +237,11 @@
             var request = {method:'GET',url:managementURL+'/env/'+key};
             $scope.warning=undefined; 
             $http(request).then(
-                function(response) {managementContextPath=response.data[key];},
                 function(response) {
+                    managementContextPath=response.data[key];
+                },
+                function(response) {
+                    managementContextPath='/';
                     $scope.warning='Could not find /env/' + key;
                     $scope.checkInfo();
                 }
@@ -261,23 +264,27 @@
 // A few functions
 // ===========================
 function getBaseURL(mu,mp) {
-    var n = mu.indexOf(mp);
-    return (n>=0) ? mu.substring(0,n) : mu;
+    if (mp=='/') {
+        return mu;
+    } else {
+        var n = mu.indexOf(mp);
+        return (n>=0) ? mu.substring(0,n) : mu;
+    }
 }
 
 function localBaseURL() {
-    // HEROKU
-    if (document.domain.endsWith('.herokuapp.com'))
-        return 'https://azonzo.herokuapp.com';
-
-    // Tomcat local, No Nginx
-    if (document.URL.startsWith('http://localhost:8080/actu'))
-        return 'http://localhost:8080/actu';
-
-    // webapp runner, no Nginx
-    return 'http://localhost:8080' ;
+    var n = document.URL.indexOf('/app/')
+    return document.URL.substring(0,n);
 }
 
 function localManagementURL() {
-    return localBaseURL() + '/actuate'; 
+    return concatBP(localBaseURL(),'/actuate'); 
+}
+
+function concatBP(base,path) {
+    return (base=='/') ? path : base + path; 
+}
+
+function getManagementPath(mu,bu) {
+    return mu.substring(bu.length);
 }
