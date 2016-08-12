@@ -260,15 +260,15 @@
                 },
                 function(response) {
                     managementContextPath='/';
-                    $scope.warning='Could not find /env/' + key;
+                    $scope.warning='Failed to get /env/' + key;
                     $scope.checkInfo();
                 }
             );
         };
         $scope.checkInfo = function() {
             $http(getRequest('/info')).then(
-                function(response) {$scope.warning += ' but found /info';},
-                function(response) {$scope.warning += '. Could not find /info either. Check Actuate URL';}
+                function(r) {$scope.warning += ' but got /info';},
+                function(r) {$scope.warning += '. Could not get /info either. Check URL and/or Authorization. Error ' + r.status + ' ' + r.statusText;}
             );
         };
     });
