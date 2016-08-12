@@ -174,10 +174,12 @@
         };
 
         $scope.doGet = function() {
-            var request = {method:'GET',url:$scope.inputURL};
+            var request = (managementAuth==null) ?
+                {method:'GET',url:$scope.inputURL} :
+                {method:'GET',url:$scope.inputURL,headers:{'Authorization':managementAuth}} ;
             $http(request).then(
-                function(response) {$scope.response = response;},
-                function(response) {$scope.response = response;}
+                function(r) {$scope.response = r;},
+                function(r) {$scope.response = r;}
             );
         };
 
