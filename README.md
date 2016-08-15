@@ -10,7 +10,7 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 - Go to `https://azonzo.herokuapp.com/hello` (_It's on Heroku free tier so you may have to wait until app wakes up. Refresh your browser until you stop seeing Heroku `Application Error` page_).
 
 ### Actuator endpoints
-- They are at `https://azonzo.herokuapp.com/actuate/{resources}`
+- They are at `https://azonzo.herokuapp.com/actuate/{resource}`
 - Example: `https://azonzo.herokuapp.com/actuate/mappings`
 
 ### AngularJS Application
@@ -21,14 +21,14 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 - Config Props `https://azonzo.herokuapp.com/app/actuate/index.html#/configprops`  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17683047/c9de4f9a-6304-11e6-944d-0e0efbde66b7.png"
      border="0" width="80%" />
-- Environment `https://azonzo.herokuapp.com/app/actuate/index.html#/env`  
+- Environment `https://azonzo.herokuapp.com/app/actuate/index.html#/env`. Each value links to individual URL of environment variable.  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17683045/c9d8ee74-6304-11e6-948f-dd1c8b994bca.png"
      border="0" width="80%" />
-- Generic page presents main GET mappings in its dropdown  
+- Generic page lists main GET mappings in its dropdown  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17683046/c9dd3038-6304-11e6-9d3f-dbb472e71424.png"
      border="0" width="80%" />
 
-### Local deploy
+## Local deploy
 ```
 mvn package
 java -jar target/dependency/webapp-runner.jar --port 7070 target/gs-actuator-service-0.1.0
