@@ -14,7 +14,7 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 - Example: `https://azonzo.herokuapp.com/actuate/mappings`
 
 ### AngularJS Application
-- Go to `https://azonzo.herokuapp.com/app/actuate/index.html`
+- Go to `https://azonzo.herokuapp.com/app/actuate/index.html` (credentials `config/config`)
 - Health `https://azonzo.herokuapp.com/app/actuate/index.html#/health`  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17524618/39cb5c30-5e14-11e6-89e8-35952a81bc86.png"
      border="0" width="80%" />
