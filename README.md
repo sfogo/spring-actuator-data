@@ -16,11 +16,20 @@ In order to be able to deploy on [Heroku](https://www.heroku.com), server and ma
 ### AngularJS Application
 - Go to `https://azonzo.herokuapp.com/app/actuate/index.html` (credentials `config/config`)
 - Health `https://azonzo.herokuapp.com/app/actuate/index.html#/health`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17524618/39cb5c30-5e14-11e6-89e8-35952a81bc86.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17683044/c9d2f604-6304-11e6-9b56-76766e5732d0.png"
      border="0" width="80%" />
 - Config Props `https://azonzo.herokuapp.com/app/actuate/index.html#/configprops`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17524616/39af0832-5e14-11e6-88e7-5fdd420bd8ad.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17683047/c9de4f9a-6304-11e6-944d-0e0efbde66b7.png"
      border="0" width="80%" />
 - Environment `https://azonzo.herokuapp.com/app/actuate/index.html#/env`  
-<img src="https://cloud.githubusercontent.com/assets/13286393/17524617/39c66e78-5e14-11e6-9cb9-6ad6c35ef806.png"
+<img src="https://cloud.githubusercontent.com/assets/13286393/17683045/c9d8ee74-6304-11e6-948f-dd1c8b994bca.png"
      border="0" width="80%" />
+- Generic page presents main GET mappings in its dropdown  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17683046/c9dd3038-6304-11e6-9d3f-dbb472e71424.png"
+     border="0" width="80%" />
+
+### Local deploy
+```
+mvn package
+java -jar target/dependency/webapp-runner.jar --port 7070 target/gs-actuator-service-0.1.0
+```
