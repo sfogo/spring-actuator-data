@@ -35,11 +35,9 @@ mvn package
 java -jar target/dependency/webapp-runner.jar --port 7070 target/gs-actuator-service-0.1.0
 ```
 ### Point to another actuator
-* You can explore actuator data of another application. If need be, you have to provide an authorization (in the form of a header value `Basic Y29uZmlnOmNvbmZpZw==` for instance, or a Bearer token).  
+* You can explore actuator data of another application. If need be, you have to provide an authorization (in the form of a header value, Basic Authorzation or Bearer token for instance).  
 <img src="https://cloud.githubusercontent.com/assets/13286393/17784907/59608c7a-6533-11e6-9d3f-003348918d5b.png"
      border="0" width="80%" />
-
-<img src="https://cloud.githubusercontent.com/assets/13286393/17784908/5964ef22-6533-11e6-9c7e-69c969ac3266.png"
+* Point to Zuul Gateway of this [project](https://github.com/sfogo/spring-democloud)  
+<img src="https://cloud.githubusercontent.com/assets/13286393/17785454/a138e4aa-6535-11e6-9e58-76e0ed1b5382.png"
      border="0" width="80%" />
-
-
