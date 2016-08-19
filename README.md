@@ -6,6 +6,7 @@ This project was started from the basic actuator [sample](https://spring.io/guid
 ### Heroku
 * In order to be able to deploy on [Heroku](https://www.heroku.com), server and management endpoints are kept on the same port (Heroku only supports one). You can update [application properties](src/main/resources/application.properties) in case you need to do two ports (you would also need to update the `managementURL` value in the angular [app](src/main/webapp/WEB-INF/js/actuate-app.js)).
 * Add the Heroku mvn [plugin](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to your [pom.xml](pom.xml) and configure it with your application name. Make sure the pom.xml packaging is `war`. Deploy it with `mvn heroku:deploy-war`.
+
 ### Locally
 ```
 mvn package
