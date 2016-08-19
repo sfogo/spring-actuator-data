@@ -3,7 +3,16 @@
 This project was started from the basic actuator [sample](https://spring.io/guides/gs/actuator-service). Its java [classes](src/main/java/com/vnet/actuator) only deviate a little from the base sample (just added some [initialization](src/main/java/com/vnet/actuator/Application.java)). The objective is to use [AngularJS](https://angularjs.org) to explore the data that the [actuator endpoints](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints) return.
 
 ## Deployment
-In order to be able to deploy on [Heroku](https://www.heroku.com), server and management endpoints are kept on the same port (Heroku only supports one). You can update [application properties](src/main/resources/application.properties) in case you need to do two ports (you would also need to update the `managementURL` value in the angular [app](src/main/webapp/WEB-INF/js/actuate-app.js)).
+### Heroku
+* In order to be able to deploy on [Heroku](https://www.heroku.com), server and management endpoints are kept on the same port (Heroku only supports one). You can update [application properties](src/main/resources/application.properties) in case you need to do two ports (you would also need to update the `managementURL` value in the angular [app](src/main/webapp/WEB-INF/js/actuate-app.js)).
+* Add the Heroku mvn [plugin](https://devcenter.heroku.com/articles/deploying-java-applications-with-the-heroku-maven-plugin) to your [pom.xml](pom.xml) and configure it with your application name. Make sure the pom.xml packaging is `war`. Deploy it with `mvn heroku:deploy-war`.
+### Locally
+```
+mvn package
+java -jar target/dependency/webapp-runner.jar --port 7070 target/gs-actuator-service-0.1.0
+```
+* Application is at `http://localhost:7070/app/actuate/index.html`  
+(Credentials config / config)
 
 ## Examples and screen shots (Heroku)
 ### Check the app is up and running
